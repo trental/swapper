@@ -24,6 +24,20 @@ public class DeveloperController {
         return new ResponseEntity<>(savedDeveloper, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{developerId}")
+    public ResponseEntity<DeveloperDto> updateDeveloper(@RequestBody DeveloperDto developer){
+        DeveloperDto savedDeveloper = developerService.updateDeveloper(developer);
+
+        return new ResponseEntity<>(savedDeveloper, HttpStatus.OK);
+    }
+
+    @GetMapping("/{developerId}")
+    public ResponseEntity<DeveloperDto> getDeveloperById(@PathVariable("developerId") UUID developerId){
+        DeveloperDto developerDto = developerService.retrieveDeveloper(developerId);
+
+        return new ResponseEntity<>(developerDto, HttpStatus.OK);
+    }
+
     @PutMapping("/{developerId}/equipment/{equipmentId}")
     public ResponseEntity<DeveloperDto> updateDeveloperInventory(
             @PathVariable("developerId") UUID developerId,
