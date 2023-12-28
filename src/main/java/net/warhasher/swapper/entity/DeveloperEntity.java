@@ -2,7 +2,6 @@ package net.warhasher.swapper.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import net.warhasher.swapper.data.EquipmentType;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,21 +12,18 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "equipment")
+@Table(name = "developer")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Equipment {
+public class DeveloperEntity {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
     private UUID id;
 
-    @Enumerated(EnumType.STRING)
-    private EquipmentType type;
-
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "equipment")
-    private Set<Inventory> inventory = new HashSet<>();
+    @OneToMany(mappedBy = "developer", fetch = FetchType.LAZY)
+    private Set<InventoryEntity> inventory = new HashSet<>();
 }

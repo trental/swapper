@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.warhasher.swapper.entity.Inventory;
 
 import java.util.Set;
 import java.util.UUID;

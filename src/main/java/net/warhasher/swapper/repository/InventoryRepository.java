@@ -5,9 +5,9 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.warhasher.swapper.entity.Developer;
-import net.warhasher.swapper.entity.Equipment;
-import net.warhasher.swapper.entity.Inventory;
+import net.warhasher.swapper.entity.DeveloperEntity;
+import net.warhasher.swapper.entity.EquipmentEntity;
+import net.warhasher.swapper.entity.InventoryEntity;
 import net.warhasher.swapper.entity.InventoryKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -29,13 +29,13 @@ public class InventoryRepository {
         inventoryKey.setDeveloperId(developerId);
         inventoryKey.setEquipmentId(equipmentId);
 
-        Inventory currentEquipmentInventory = entityManager.find(Inventory.class, inventoryKey);
+        InventoryEntity currentEquipmentInventory = entityManager.find(InventoryEntity.class, inventoryKey);
 
         if (currentEquipmentInventory == null && quantity > 0) {
-            Inventory newInventory = new Inventory();
+            InventoryEntity newInventory = new InventoryEntity();
 
-            Developer developer = entityManager.find(Developer.class, developerId);
-            Equipment equipment = entityManager.find(Equipment.class, equipmentId);
+            DeveloperEntity developer = entityManager.find(DeveloperEntity.class, developerId);
+            EquipmentEntity equipment = entityManager.find(EquipmentEntity.class, equipmentId);
 
             newInventory.setId(inventoryKey);
             newInventory.setQuantity(quantity);

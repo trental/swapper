@@ -13,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "swap")
-public class Swap {
+public class SwapEntity {
 
     @Id
     @Column(name = "id")

@@ -3,7 +3,7 @@ package net.warhasher.swapper.service.impl;
 import lombok.AllArgsConstructor;
 import net.warhasher.swapper.converter.DeveloperConverter;
 import net.warhasher.swapper.dto.DeveloperDto;
-import net.warhasher.swapper.entity.Developer;
+import net.warhasher.swapper.entity.DeveloperEntity;
 import net.warhasher.swapper.repository.DeveloperRepository;
 import net.warhasher.swapper.service.DeveloperService;
 import net.warhasher.swapper.service.InventoryService;
@@ -22,9 +22,9 @@ public class DeveloperServiceImpl implements DeveloperService {
 
     @Override
     public DeveloperDto createDeveloper(DeveloperDto developerDto) {
-        Developer developer = developerConverter.convertToDeveloper(developerDto);
+        DeveloperEntity developer = developerConverter.convertToDeveloper(developerDto);
 
-        Developer savedDeveloper = developerRepository.save(developer);
+        DeveloperEntity savedDeveloper = developerRepository.save(developer);
 
         DeveloperDto savedDeveloperDto = developerConverter.convertToDeveloperDto(savedDeveloper);
 
@@ -33,10 +33,10 @@ public class DeveloperServiceImpl implements DeveloperService {
 
     @Override
     public DeveloperDto updateDeveloper(DeveloperDto developerDto) {
-        Optional<Developer> existingDeveloper = developerRepository.findById(developerDto.getId());
+        Optional<DeveloperEntity> existingDeveloper = developerRepository.findById(developerDto.getId());
 
         if (existingDeveloper.isPresent()) {
-            Developer savedDeveloper = developerRepository.save(developerConverter.convertToDeveloper(developerDto));
+            DeveloperEntity savedDeveloper = developerRepository.save(developerConverter.convertToDeveloper(developerDto));
 
             return developerConverter.convertToDeveloperDto(savedDeveloper);
         } else {
@@ -46,7 +46,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 
     @Override
     public DeveloperDto retrieveDeveloper(UUID developerId) {
-        Optional<Developer> developer = developerRepository.findById(developerId);
+        Optional<DeveloperEntity> developer = developerRepository.findById(developerId);
 
         if (developer.isPresent()) {
             return developerConverter.convertToDeveloperDto(developer.get());
@@ -60,7 +60,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 
         inventoryService.setInventory(developerId, equipmentId, quantity);
 
-        Optional<Developer> developer = developerRepository.findById(developerId);
+        Optional<DeveloperEntity> developer = developerRepository.findById(developerId);
 
         if (developer.isEmpty()) {
             throw new Exception("not found");

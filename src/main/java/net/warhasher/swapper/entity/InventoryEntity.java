@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "inventory")
-public class Inventory {
+public class InventoryEntity {
 
     @EmbeddedId
     InventoryKey id;
@@ -17,12 +17,12 @@ public class Inventory {
     @ManyToOne
     @MapsId("developerId")
     @JoinColumn(name = "developer_id")
-    private Developer developer;
+    private DeveloperEntity developer;
 
     @ManyToOne
     @MapsId("equipmentId")
     @JoinColumn(name = "equipment_id")
-    private Equipment equipment;
+    private EquipmentEntity equipment;
 
     private Integer quantity;
 }

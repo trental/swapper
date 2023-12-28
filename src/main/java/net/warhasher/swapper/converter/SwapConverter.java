@@ -1,13 +1,13 @@
 package net.warhasher.swapper.converter;
 
 import net.warhasher.swapper.dto.SwapDto;
-import net.warhasher.swapper.entity.Swap;
+import net.warhasher.swapper.entity.SwapEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SwapConverter {
 
-    public SwapDto convertToDto(Swap swap) {
+    public SwapDto convertToDto(SwapEntity swap) {
         SwapDto swapDto = new SwapDto();
         swapDto.setId(swap.getId());
         swapDto.setInId(swap.getInId());
@@ -17,8 +17,8 @@ public class SwapConverter {
         return swapDto;
     }
 
-    public Swap convertToEntity(SwapDto swapDto) {
-        Swap swap = new Swap();
+    public SwapEntity convertToEntity(SwapDto swapDto) {
+        SwapEntity swap = new SwapEntity();
         swap.setId(swapDto.getId());
         swap.setInId(swapDto.getInId());
         swap.setOutId(swapDto.getOutId());
