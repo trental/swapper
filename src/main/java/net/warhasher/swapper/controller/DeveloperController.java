@@ -3,7 +3,10 @@ package net.warhasher.swapper.controller;
 import lombok.AllArgsConstructor;
 import net.warhasher.swapper.dto.DeveloperDto;
 import net.warhasher.swapper.dto.InventoryDto;
+import net.warhasher.swapper.dto.SwapDto;
+import net.warhasher.swapper.exception.ResourceNotFoundException;
 import net.warhasher.swapper.service.DeveloperService;
+import net.warhasher.swapper.service.SwapService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,7 @@ import java.util.UUID;
 public class DeveloperController {
 
     private DeveloperService developerService;
+    private SwapService swapService;
 
     @PostMapping
     public ResponseEntity<DeveloperDto> createDeveloper(@RequestBody DeveloperDto developer){
@@ -46,5 +50,25 @@ public class DeveloperController {
         DeveloperDto savedDeveloper = developerService.updateDeveloperInventory(developerId, equipmentId, inventory.getQuantity());
 
         return new ResponseEntity<>(savedDeveloper, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{developerId}/swaps")
+    public ResponseEntity<SwapDto> createSwap(
+            @PathVariable("developerId") UUID developerId,
+            @RequestBody SwapDto swapDto) {
+        swapDto.setDeveloperId(developerId);
+        SwapDto createdSwap = swapService.createSwap(swapDto);
+        return new ResponseEntity<>(createdSwap, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{developerId}/swaps/{swapId}")
+    public ResponseEntity<Void> deleteSwap(@PathVariable("swapId") UUID swapId) {
+        swapService.deleteSwap(swapId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> handleResourceNotFoundException(ResourceNotFoundException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

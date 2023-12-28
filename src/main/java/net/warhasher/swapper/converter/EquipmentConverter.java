@@ -3,13 +3,15 @@ package net.warhasher.swapper.converter;
 import net.warhasher.swapper.dto.EquipmentDto;
 import net.warhasher.swapper.entity.Equipment;
 import net.warhasher.swapper.entity.Inventory;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Component
 public class EquipmentConverter {
 
-    public static EquipmentDto convertToEquipmentDto(Equipment equipment){
+    public EquipmentDto convertToEquipmentDto(Equipment equipment){
         return new EquipmentDto(
                 equipment.getId(),
                 equipment.getType(),
@@ -17,7 +19,7 @@ public class EquipmentConverter {
         );
     }
 
-    public static Equipment convertToEquipment(EquipmentDto equipmentDto){
+    public Equipment convertToEquipment(EquipmentDto equipmentDto){
         Set<Inventory> inventory = new HashSet<>();
 
         return new Equipment(

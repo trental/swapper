@@ -18,14 +18,15 @@ public class DeveloperServiceImpl implements DeveloperService {
 
     private DeveloperRepository developerRepository;
     private InventoryService inventoryService;
+    private DeveloperConverter developerConverter;
 
     @Override
     public DeveloperDto createDeveloper(DeveloperDto developerDto) {
-        Developer developer = DeveloperConverter.convertToDeveloper(developerDto);
+        Developer developer = developerConverter.convertToDeveloper(developerDto);
 
         Developer savedDeveloper = developerRepository.save(developer);
 
-        DeveloperDto savedDeveloperDto = DeveloperConverter.convertToDeveloperDto(savedDeveloper);
+        DeveloperDto savedDeveloperDto = developerConverter.convertToDeveloperDto(savedDeveloper);
 
         return savedDeveloperDto;
     }
@@ -35,9 +36,9 @@ public class DeveloperServiceImpl implements DeveloperService {
         Optional<Developer> existingDeveloper = developerRepository.findById(developerDto.getId());
 
         if (existingDeveloper.isPresent()) {
-            Developer savedDeveloper = developerRepository.save(DeveloperConverter.convertToDeveloper(developerDto));
+            Developer savedDeveloper = developerRepository.save(developerConverter.convertToDeveloper(developerDto));
 
-            return DeveloperConverter.convertToDeveloperDto(savedDeveloper);
+            return developerConverter.convertToDeveloperDto(savedDeveloper);
         } else {
             throw new RuntimeException("not found");
         }
@@ -48,7 +49,7 @@ public class DeveloperServiceImpl implements DeveloperService {
         Optional<Developer> developer = developerRepository.findById(developerId);
 
         if (developer.isPresent()) {
-            return DeveloperConverter.convertToDeveloperDto(developer.get());
+            return developerConverter.convertToDeveloperDto(developer.get());
         } else {
             throw new RuntimeException("not found");
         }
@@ -65,6 +66,6 @@ public class DeveloperServiceImpl implements DeveloperService {
             throw new Exception("not found");
         }
 
-        return DeveloperConverter.convertToDeveloperDto(developer.get());
+        return developerConverter.convertToDeveloperDto(developer.get());
     }
 }

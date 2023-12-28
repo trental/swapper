@@ -13,14 +13,15 @@ import org.springframework.stereotype.Service;
 public class EquipmentServiceImpl implements EquipmentService {
 
     private EquipmentRepository equipmentRepository;
+    private EquipmentConverter equipmentConverter;
 
     @Override
     public EquipmentDto createEquipment(EquipmentDto equipmentDto) {
-        Equipment equipment = EquipmentConverter.convertToEquipment(equipmentDto);
+        Equipment equipment = equipmentConverter.convertToEquipment(equipmentDto);
 
         Equipment savedEquipment = equipmentRepository.save(equipment);
 
-        EquipmentDto savedEquipmentDto = EquipmentConverter.convertToEquipmentDto(savedEquipment);
+        EquipmentDto savedEquipmentDto = equipmentConverter.convertToEquipmentDto(savedEquipment);
 
         return savedEquipmentDto;
     }

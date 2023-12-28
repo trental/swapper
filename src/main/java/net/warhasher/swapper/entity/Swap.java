@@ -1,13 +1,14 @@
 package net.warhasher.swapper.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -27,4 +28,12 @@ public class Swap {
 
     @Column(nullable = false)
     private UUID developerId;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt; // New field for createdAt timestamp
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now(ZoneOffset.UTC); // Automatically set createdAt timestamp on creation
+    }
 }
