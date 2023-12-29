@@ -1,10 +1,15 @@
 package net.warhasher.swapper.data;
 
+import net.warhasher.swapper.service.impl.SwapServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.UUID;
 
 public class SwapQueueKeeper {
 
+    private static final Logger logger = LoggerFactory.getLogger(SwapServiceImpl.class);
     private final UUID inId;
     private final UUID outId;
     private final HashMap<UUID, SwapQueue> swapQueueMap;
@@ -28,7 +33,16 @@ public class SwapQueueKeeper {
         }
 
         // add to red black tree too
-        System.out.println("Adding swap to keeper " + swap.toString());
+        logger.info("Adding swap to keeper " + swap.toString());
         swapQueue.enqueue(swap);
+    }
+
+    public void deleteSwapById(UUID outId, UUID swapId) {
+        if (!swapQueueMap.containsKey(outId)) {
+            return;
+        }
+
+        swapQueueMap.get(outId).deleteFromQueue(swapId);
+
     }
 }
