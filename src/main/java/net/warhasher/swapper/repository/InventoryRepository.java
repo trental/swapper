@@ -55,4 +55,12 @@ public class InventoryRepository {
             }
         }
     }
+
+    public InventoryEntity getInventory(UUID developerId, UUID equipmentId){
+        InventoryKey inventoryKey = new InventoryKey();
+        inventoryKey.setDeveloperId(developerId);
+        inventoryKey.setEquipmentId(equipmentId);
+
+        return entityManager.find(InventoryEntity.class, inventoryKey);
+    }
 }

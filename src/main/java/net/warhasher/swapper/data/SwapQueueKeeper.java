@@ -11,13 +11,11 @@ public class SwapQueueKeeper {
 
     private static final Logger logger = LoggerFactory.getLogger(SwapServiceImpl.class);
     private final UUID inId;
-    private final UUID outId;
     private final HashMap<UUID, SwapQueue> swapQueueMap;
 
     // add red-black tree for sorted retrieval
-    public SwapQueueKeeper(UUID inId, UUID outId) {
+    public SwapQueueKeeper(UUID inId) {
         this.inId = inId;
-        this.outId = outId;
         swapQueueMap = new HashMap<>();
     }
 
@@ -26,7 +24,8 @@ public class SwapQueueKeeper {
         SwapQueue swapQueue;
 
         if (!swapQueueMap.containsKey(outId)) {
-            swapQueue = new SwapQueue(this.inId, this.outId);
+            swapQueue = new SwapQueue(this.inId, outId);
+            logger.info("Creating swapQueue outId " + outId);
             swapQueueMap.put(outId, swapQueue);
         } else {
             swapQueue = swapQueueMap.get(outId);
@@ -44,5 +43,22 @@ public class SwapQueueKeeper {
 
         swapQueueMap.get(outId).deleteFromQueue(swapId);
 
+        if (swapQueueMap.get(outId).isEmpty()) {
+            logger.info("Removing empty swapQueue outId " + outId);
+            swapQueueMap.remove(outId);
+        }
+
+    }
+
+    public boolean isEmpty() {
+        return swapQueueMap.isEmpty();
+    }
+
+    public boolean hasSwapQueue(UUID outId){
+        return swapQueueMap.containsKey(outId);
+    }
+
+    public HashMap<UUID, SwapQueue> getSwapQueueMap() {
+        return swapQueueMap;
     }
 }

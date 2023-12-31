@@ -34,6 +34,13 @@ public class SwapQueue {
         return queue.removeFirst();
     }
 
+    public Swap peek() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Queue is empty");
+        }
+        return queue.peek();
+    }
+
     public boolean isEmpty() {
         return queue.isEmpty();
     }
@@ -42,15 +49,13 @@ public class SwapQueue {
         return queue.size();
     }
 
-    public Swap deleteFromQueue(UUID swapId) {
+    public void deleteFromQueue(UUID swapId) {
         for (Swap swap : queue) {
             if (swap.getId().equals(swapId)) {
                 queue.remove(swap);
                 logger.info("Deleted swap " + swapId + " from queue");
-                return swap;
+                return;
             }
         }
-
-        return null;
     }
 }

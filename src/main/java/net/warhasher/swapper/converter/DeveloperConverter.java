@@ -4,6 +4,7 @@ import net.warhasher.swapper.dto.DeveloperDto;
 import net.warhasher.swapper.dto.InventoryDto;
 import net.warhasher.swapper.entity.DeveloperEntity;
 import net.warhasher.swapper.entity.InventoryEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Component
 public class DeveloperConverter {
 
+    @Autowired
     EquipmentConverter equipmentConverter;
 
     public DeveloperDto convertToDeveloperDto(DeveloperEntity developer){
