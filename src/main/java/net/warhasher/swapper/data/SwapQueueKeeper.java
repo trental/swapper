@@ -25,14 +25,14 @@ public class SwapQueueKeeper {
 
         if (!swapQueueMap.containsKey(outId)) {
             swapQueue = new SwapQueue(this.inId, outId);
-            logger.info("Creating swapQueue outId " + outId);
+//            logger.info("Creating swapQueue outId " + outId);
             swapQueueMap.put(outId, swapQueue);
         } else {
             swapQueue = swapQueueMap.get(outId);
         }
 
         // add to red black tree too
-        logger.info("Adding swap to keeper " + swap.toString());
+//        logger.info("Adding swap to keeper " + swap.toString());
         swapQueue.enqueue(swap);
     }
 
@@ -44,7 +44,7 @@ public class SwapQueueKeeper {
         swapQueueMap.get(outId).deleteFromQueue(swapId);
 
         if (swapQueueMap.get(outId).isEmpty()) {
-            logger.info("Removing empty swapQueue outId " + outId);
+//            logger.info("Removing empty swapQueue outId " + outId);
             swapQueueMap.remove(outId);
         }
 

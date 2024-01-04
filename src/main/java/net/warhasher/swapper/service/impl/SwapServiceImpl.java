@@ -57,7 +57,7 @@ public class SwapServiceImpl implements SwapService {
 
         SwapEntity savedSwap = swapRepository.save(swap);
 
-        logger.info("Publishing swap created event " + swap.toString());
+//        logger.info("Publishing swap created event " + swap.toString());
         eventPublisher.publishEvent(new SwapCreatedEvent(this, savedSwap.getId()));
 
         return swapConverter.convertToDto(savedSwap);
@@ -68,7 +68,7 @@ public class SwapServiceImpl implements SwapService {
         SwapEntity existingSwap = swapRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Swap not found with ID: " + id));
 
-        logger.info("Publishing swap deleted event " + id);
+//        logger.info("Publishing swap deleted event " + id);
         eventPublisher.publishEvent(new SwapDeletedEvent(
                 this,
                 id,
@@ -83,7 +83,7 @@ public class SwapServiceImpl implements SwapService {
     @EventListener
     public void handleSwapCreatedEvent(SwapCreatedEvent event) {
         UUID swapId = event.getSwapId();
-        logger.info("Handling swap created event " + swapId);
+//        logger.info("Handling swap created event " + swapId);
 
         SwapEntity swapEntity = swapRepository.findById(swapId).get();
         Swap swap = new Swap(
@@ -96,7 +96,7 @@ public class SwapServiceImpl implements SwapService {
         SwapQueueKeeper swapQueueKeeper;
         if (!swapQueues.containsKey(swap.getInId())) {
             swapQueueKeeper = new SwapQueueKeeper(swap.getInId());
-            logger.info("Creating swapQueueKeeper inId " + swap.getInId());
+//            logger.info("Creating swapQueueKeeper inId " + swap.getInId());
             swapQueues.put(swap.getInId(), swapQueueKeeper);
         }
         swapQueueKeeper = swapQueues.get(swap.getInId());
@@ -111,7 +111,7 @@ public class SwapServiceImpl implements SwapService {
         UUID swapId = event.getSwapId();
         UUID inId = event.getInId();
         UUID outId = event.getOutId();
-        logger.info("Handling swap deleted event " + swapId);
+//        logger.info("Handling swap deleted event " + swapId);
 
         if (!swapQueues.containsKey(inId)) {
             return;
@@ -120,7 +120,7 @@ public class SwapServiceImpl implements SwapService {
         swapQueues.get(inId).deleteSwapById(outId, swapId);
 
         if (swapQueues.get(inId).isEmpty()) {
-            logger.info("Removing empty swapQueue inId " + inId);
+//            logger.info("Removing empty swapQueue inId " + inId);
             swapQueues.remove(inId);
         }
     }
@@ -128,7 +128,7 @@ public class SwapServiceImpl implements SwapService {
     @Async
     @EventListener
     public void handleSwapCrawlEvent(SwapCrawlEvent event) {
-        logger.info("Handling swap crawl event " + event.getSwapToCheck().getId());
+//        logger.info("Handling swap crawl event " + event.getSwapToCheck().getId());
 
         SwapCrawler swapCrawler = new SwapCrawler(swapQueues, event.getSwapToCheck());
         ArrayList<Swap> swapList = swapCrawler.startSwapCrawler();

@@ -23,7 +23,7 @@ public class SwapQueue {
     }
 
     public void enqueue(Swap swap){
-        logger.info("Adding swap to queue " + swap.toString());
+//        logger.info("Adding swap to queue " + swap.toString());
         queue.addLast(swap);
     }
 
@@ -53,7 +53,7 @@ public class SwapQueue {
         for (Swap swap : queue) {
             if (swap.getId().equals(swapId)) {
                 queue.remove(swap);
-                logger.info("Deleted swap " + swapId + " from queue");
+//                logger.info("Deleted swap " + swapId + " from queue");
                 return;
             }
         }

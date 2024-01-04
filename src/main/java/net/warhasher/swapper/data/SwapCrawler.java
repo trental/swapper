@@ -19,6 +19,8 @@ public class SwapCrawler {
     }
 
     public ArrayList<Swap> startSwapCrawler(){
+        long startTime = System.currentTimeMillis();
+
         UUID startingId = swapToCheck.getOutId();
         UUID endingId = swapToCheck.getInId();
         HashSet<UUID> visitedQueueKeepers = new HashSet<>();
@@ -34,7 +36,6 @@ public class SwapCrawler {
 
         UUID currentId;
 
-        logger.info("Visiting " + startingId + " <- " + endingId);
         swapTrails.put(startingId, endingId);
 
         visitedQueueKeepers.add(startingId);
@@ -49,7 +50,6 @@ public class SwapCrawler {
                 currentSwapQueueMap = currentSwapQueueKeeper.getSwapQueueMap();
                 for (Map.Entry<UUID, SwapQueue> entry : currentSwapQueueMap.entrySet()) {
                     if (!visitedQueueKeepers.contains(entry.getKey())) {
-                        logger.info("Visiting " + entry.getKey() + " <- " + currentId);
                         swapTrails.put(entry.getKey(), currentId);
 
                         visitedQueueKeepers.add(entry.getKey());
@@ -57,7 +57,6 @@ public class SwapCrawler {
 
                         if (entry.getKey().equals(endingId)) {
                             cycleFound = true;
-                            logger.info("Solution found");
                         }
                     }
                     if (cycleFound) {
@@ -77,7 +76,11 @@ public class SwapCrawler {
                     stepEnd = stepStart;
                 }
 
-                logger.info(swapList.toString());
+                long endTime = System.currentTimeMillis();
+                long duration = endTime - startTime;
+
+//                logger.info("Solution size " + swapList.size() + " found in " + String.valueOf(duration) + " " + swapList.toString());
+                logger.info("Solution size " + swapList.size() + " found in " + String.valueOf(duration));
             }
         }
         return swapList;
